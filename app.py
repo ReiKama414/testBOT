@@ -5,11 +5,10 @@ from linebot.models import *
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-db = SQLAlchemy()
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:makku999@IP:3306/sql_pintai'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:makku999@IP:3306/sql_pintai'
 
 # Channel Access Token
 line_bot_api = LineBotApi('0HaJGyHiDk9SSaHtvwnOcVl7hAYm7CGyzgiU6/oyW9d3AKhS5zSvmNlwD/GLwuHqjfyCRcqlkggmumi1cYQ4fQfTmx6/VmtvcTTy8gpMEQhFQCcgIiUrpSs12+xEg27Bm8EaY9nIqWQNSMefO3nl2QdB04t89/1O/w1cDnyilFU=')
@@ -43,13 +42,6 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
-    sql_cmd = """select name from users"""
-    query_data = db.engine.execute(sql_cmd)
-    # print(db.engine.execute(sql_cmd).fetchall())
-    # print('#########   ', query_data.fetchone()[0])
-
-    message = TextSendMessage(text=event.message.text+'   '+query_data.fetchone()[0])
-    line_bot_api.reply_message(event.reply_token, message)
 
 
 if __name__ == "__main__":
