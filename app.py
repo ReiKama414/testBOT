@@ -51,7 +51,7 @@ def handle_message(event):
     if '貼圖' in message:
         sticker_message = StickerSendMessage(package_id='11537',
                                              sticker_id='52002734')
-        line_bot_api.reply_message(event.reply_token,)
+        line_bot_api.reply_message(event.reply_token, sticker_message)
     else:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
