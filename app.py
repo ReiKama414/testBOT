@@ -13,10 +13,13 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(Channel_access_token)
 handler = WebhookHandler(Channel_secret)
 
+
 line_bot_api.push_message(user_ID, TextSendMessage(text='我啟動拉！'))
+'''
 for i in range(5, 0, -1):
     line_bot_api.push_message(user_ID, TextSendMessage(text='倒數' + str(i)))
     time.sleep(1)
+'''
 
 # KAMAKUKU !d4150894
 
@@ -42,10 +45,15 @@ def callback():
 # 訊息傳遞區塊
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if '吃' in event.message.text:
+    message = event.message.text
+    if '吃' in message:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='拉麵'))
+    if '貼圖' in message:
+        sticker_message = StickerSendMessage(package_id='11537',
+                                             sticker_id='52002734')
+        line_bot_api.reply_message(event.reply_token,)
     else:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
 if __name__ == "__main__":
