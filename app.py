@@ -13,7 +13,7 @@ line_bot_api = LineBotApi(
 handler = WebhookHandler('f0c0a2590f8ff3a22ff59c04bc62c974')
 
 line_bot_api.push_message('Ube79062ed247c073eb883921a930cd1f', TextSendMessage(text='我啟動拉！'))
-
+line_bot_api.push_message(TextSendMessage(text='早安各位！'))
 
 # KAMAKUKU !d4150894
 
