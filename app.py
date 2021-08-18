@@ -1,18 +1,22 @@
-import re, os
+import re, os, time
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 
+Channel_access_token = '0HaJGyHiDk9SSaHtvwnOcVl7hAYm7CGyzgiU6/oyW9d3AKhS5zSvmNlwD/GLwuHqjfyCRcqlkggmumi1cYQ4fQfTmx6/VmtvcTTy8gpMEQhFQCcgIiUrpSs12+xEg27Bm8EaY9nIqWQNSMefO3nl2QdB04t89/1O/w1cDnyilFU='
+Channel_secret = 'f0c0a2590f8ff3a22ff59c04bc62c974'
+user_ID = 'Ube79062ed247c073eb883921a930cd1f'
+
 app = Flask(__name__)
 
-# Channel Access Token
-line_bot_api = LineBotApi(
-    '0HaJGyHiDk9SSaHtvwnOcVl7hAYm7CGyzgiU6/oyW9d3AKhS5zSvmNlwD/GLwuHqjfyCRcqlkggmumi1cYQ4fQfTmx6/VmtvcTTy8gpMEQhFQCcgIiUrpSs12+xEg27Bm8EaY9nIqWQNSMefO3nl2QdB04t89/1O/w1cDnyilFU=')
-# Channel Secret
-handler = WebhookHandler('f0c0a2590f8ff3a22ff59c04bc62c974')
+line_bot_api = LineBotApi(Channel_access_token)
+handler = WebhookHandler(Channel_secret)
 
-line_bot_api.push_message('Ube79062ed247c073eb883921a930cd1f', TextSendMessage(text='我啟動拉！'))
+line_bot_api.push_message(user_ID, TextSendMessage(text='我啟動拉！'))
+for i in range(5, 0, -1):
+    line_bot_api.push_message(user_ID, TextSendMessage(text='倒數' + str(i)))
+    time.sleep(1)
 
 # KAMAKUKU !d4150894
 
