@@ -1,17 +1,19 @@
+import re, os
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
-import os
 
 app = Flask(__name__)
 
 # Channel Access Token
-line_bot_api = LineBotApi('0HaJGyHiDk9SSaHtvwnOcVl7hAYm7CGyzgiU6/oyW9d3AKhS5zSvmNlwD/GLwuHqjfyCRcqlkggmumi1cYQ4fQfTmx6/VmtvcTTy8gpMEQhFQCcgIiUrpSs12+xEg27Bm8EaY9nIqWQNSMefO3nl2QdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi(
+    '0HaJGyHiDk9SSaHtvwnOcVl7hAYm7CGyzgiU6/oyW9d3AKhS5zSvmNlwD/GLwuHqjfyCRcqlkggmumi1cYQ4fQfTmx6/VmtvcTTy8gpMEQhFQCcgIiUrpSs12+xEg27Bm8EaY9nIqWQNSMefO3nl2QdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
 handler = WebhookHandler('f0c0a2590f8ff3a22ff59c04bc62c974')
 
 line_bot_api.push_message('Ube79062ed247c073eb883921a930cd1f', TextSendMessage(text='我啟動拉！'))
+
 
 # KAMAKUKU !d4150894
 
@@ -37,7 +39,10 @@ def callback():
 # 訊息傳遞區塊
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    if '吃' in event.message.text:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='拉麵'))
+    else:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
 
 
 if __name__ == "__main__":
@@ -47,10 +52,9 @@ if __name__ == "__main__":
 '''
 Procfile：heroku 執行命令，web: {語言} {檔案}，這邊語言為 python，要自動執行的檔案為 app.py，因此我們改成 web: python app.py。
 requirements.txt：列出所有用到的套件，heroku 會依據這份文件來安裝需要套件
-
     reply_message(reply_token, 訊息物件)
     push_message(push_token, 訊息物件)
-    
+
 1-5 Line Bot機器人串接與測試【Line Bot申請與串接】 (https://www.youtube.com/watch?v=7roDWI0_YMo)
 如何 使用flask 連結 MySQL (https://www.maxlist.xyz/2019/11/10/flask-sqlalchemy-setting/)
 '''
