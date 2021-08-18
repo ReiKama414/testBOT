@@ -11,7 +11,7 @@ line_bot_api = LineBotApi('0HaJGyHiDk9SSaHtvwnOcVl7hAYm7CGyzgiU6/oyW9d3AKhS5zSvm
 # Channel Secret
 handler = WebhookHandler('f0c0a2590f8ff3a22ff59c04bc62c974')
 
-line_bot_api.push_message('Ube79062ed247c073eb883921a930cd1f', TextSendMessage(text='你可以開始了'))
+line_bot_api.push_message('Ube79062ed247c073eb883921a930cd1f', TextSendMessage(text='我啟動拉！'))
 
 # KAMAKUKU !d4150894
 
@@ -23,7 +23,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    app.logger.info("Request body: " + request.get_data(as_text=True))
 
     # handle webhook body
     try:
@@ -37,8 +37,7 @@ def callback():
 # 訊息傳遞區塊
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text=event.message.text)
-    line_bot_api.reply_message(event.reply_token, message)
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
 
 
 if __name__ == "__main__":
