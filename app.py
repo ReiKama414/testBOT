@@ -15,14 +15,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(Channel_access_token)
 handler = WebhookHandler(Channel_secret)
 
-line_bot_api.push_message(user_ID, TextSendMessage(text='我啟動拉！'))
-'''
-for i in range(5, 0, -1):
-    line_bot_api.push_message(user_ID, TextSendMessage(text='倒數' + str(i)))
-    time.sleep(1)
-'''
-
-# KAMAKUKU !d4150894
+line_bot_api.push_message(user_ID, TextSendMessage(text='測試啟動'))
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -61,8 +54,12 @@ def handle_message(event):
     df = pd.read_sql(sql, conn, index_col=['id'])
     mask = df[df['keyword'].str.contains(message, na=False)]
 
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-    if mask.empty:
+    if '玩' in message:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='DBD'))
+    else:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+
+    if len(mask) == 0:
         if '吃' in message:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='拉麵'))
         if '貼圖' in message:
@@ -86,13 +83,3 @@ def handle_message(event):
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
-'''
-Procfile：heroku 執行命令，web: {語言} {檔案}，語言為 python，要自動執行的檔案為 app.py，因此我們改成 web: python app.py。
-requirements.txt：列出所有用到的套件，heroku 會依據這份文件來安裝需要套件
-    reply_message(reply_token, 訊息物件)
-    push_message(push_token, 訊息物件)
-
-【Line Bot申請與串接】 (https://www.youtube.com/watch?v=7roDWI0_YMo)
-如何 使用flask 連結 MySQL (https://www.maxlist.xyz/2019/11/10/flask-sqlalchemy-setting/)
-'''
