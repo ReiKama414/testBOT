@@ -1,0 +1,4 @@
+line-bot-sdk
+flask
+flask_sqlalchemy
+PyMySQL
